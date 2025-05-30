@@ -1,0 +1,59 @@
+1. Branch가 필요한 이유
+    1) Branch
+    2) 예 : 제품 출시
+
+    기본 개발 과정  A => B => C => D
+
+        MS      A => B => C => D => ME
+        google  A => B => C => D => GE => GF => GG
+        Apple   A => B => C => D => AE
+        main    A => B => C => D => E (독립된 공간인 각 branch마다 최종 버전이 다르면 나중에 관리가 힘듦.
+                                    그런데 main branch에서 각 버전을 merge해서 보관하면 추후 관리에 용이함.)
+
+        - 저장소마다 버전 관리는 따로 하는 방법
+
+2. Branch 살펴보기
+    1) Git으로 버전 관리를 시작하면 기본적으로 main branch가 만들어짐
+    2) branch는 commit을 가리키는 포인터와 비슷함
+    3) 새 branch를 만듦
+        - 기존 파일은 main branch에 그대로 유지함
+        - 새 branch에서 기존 파일 내용을 수정, 기능 추가
+        - main branch에서 새 branch를 만드는 것을 '분기한다(branch)'고 함
+
+3. Branch 만들기(이동하기)
+    1) git branch
+        - branch를 확인하는 명령어
+    2) git branch branch이름
+        - branch를 만드는 명령어
+    3) 새 commit을 추가하기
+
+4. Branch 전환하기(이동하기)
+    1) git switch
+        - branch 간의 이동
+        - checkout 함
+    2) 전환한 branch에서 commit하기
+
+5. Branch와 commit의 관계
+    1) git log --oneline --branches 
+       git log --oneline --branches --graph
+
+6. Branch 간의 차이점 확인하기
+    1) git log branch이름..branch이름 (there is no space between branch names!!!!)
+        - 마침표 왼쪽에 있는 branch를 기준으로 오른쪽 branch와 비교함
+
+7. Branch 병합하기
+    1) 어느 시점에서는 branch 작업을 마무리하고 기존 branch와 합쳐야 함 - 그래야 완전한 기능 풀셋 테스트 가능
+        - 병합 시 여러 상황이 발생할 수 있음
+        - 충돌 (conflict)시 해결해야 함.
+    2) 서로 다른 파일 병합하기
+        - git merge 대상branch이름
+        - 현재 속해 있는 branch가 기준이 됨
+    3) 서로 다른 branch에서 한 문서의 다른 부분을 수정했을 때 병합하기
+        - 2개의 branch에 서로 다른 문서가 있다면 branch 병합하기 쉬움
+        - 2개의 branch에 같은 문서를 수정한다면 병합 결과는?
+    4) 서로 다른 branch에서 한 문서의 같은 부분을 수정했을 때 병합하기
+        - branch 충돌(conflict)이 발생함
+
+8. 병합이 끝난 branch 삭제하기
+    1) 더 이상 사용하지 않는 branch는 git에서 삭제 가능함
+    2) git branch -d 삭제할branch이름
