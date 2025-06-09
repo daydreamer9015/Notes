@@ -34,9 +34,10 @@
 6. 원격 저장소에서 commit 내려받기
     - git pull (풀하기)
         - 원격 저장소와 지역 저장소의 상태가 같아지도록 원격 저장소의 commit을 지역 저장소로 가져옴
+        - 원격 저장소의 최신 커밋을 지역 저장소에 합쳐 줌
         - git pull origin branch이름 : 예) git pull origin main
     - git clone (클론, 클로닝)
         - 원격 저장소 복제하기
         - 원격 저장소에 담긴 내용 전체를 지역 저장소로 가져오는 기능
-        - git clone (클로닝할 원격저장소 주소)
+        - git clone (클로닝할 원격저장소 주소) .
             - 예) git clone https://github.com/daydreamer9015/test1.git
