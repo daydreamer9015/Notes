@@ -84,3 +84,6 @@
         - margin-left, margin-right의 속성값을 auto로 지정함
     3) margin 중첩
         - 요소를 세로로 배치할 경우에 각 요소의 margin과 margin이 만나면 margin 값이 큰 쪽으로 겹쳐짐 (margin 상쇄)
+
+12. 컨텐츠와 테두리 사이의 여백 설정하는 속성
+    1) padding(패딩)
