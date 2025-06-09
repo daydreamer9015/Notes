@@ -1,0 +1,5 @@
+1. 웹 요소의 위치를 정하는 속성
+    1) left
+    2) right
+    3) top
+    4) bottom
