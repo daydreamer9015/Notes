@@ -48,7 +48,7 @@
         - 버전 만드는 것을 Git에서는 'commit한다' 고 함        
         - git commit -am "메시지" 
             - 스테이징과 커밋 한꺼번에 처리하기 (git add+git commit -m "메시지")
-    6) 커밋 히스토리 확인
+    6) Commit History 확인
         - git log
         - git log --oneline : 한 줄 로그 보기
         - git log --oneline --graph : 로그를 좀 더 그래픽st로 보이도록
