@@ -82,3 +82,5 @@
         - 웹문서 전체를 화면 중앙에 배치
         - 우선적으로 배치할 요소의 너비값이 정해져 있어야 함
         - margin-left, margin-right의 속성값을 auto로 지정함
+    3) margin 중첩
+        - 요소를 세로로 배치할 경우에 각 요소의 margin과 margin이 만나면 margin 값이 큰 쪽으로 겹쳐짐 (margin 상쇄)
