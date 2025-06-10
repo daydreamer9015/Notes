@@ -34,3 +34,67 @@
     1) Media Queries
         - 사이트에 접속하는 장치에 따라 특정한 CSS 스타일을 사용하는 방법 
         - 미디어 쿼리를 사용하면 접속하는 기기의 화면 크기에 따라 레이아웃이 달라짐
+    2) 미디어 쿼리 구문
+        - @media 속성을 사용하여 특정 미디어에서 어떤 CSS를 적용할 것인지를 지정해 줌
+        - @media [only / not] 미디어 유형 [and 조건] * [and 조건]
+                  ----   ---             ---
+            - only : 미디어 쿼리를 지원하지 않는 웹 브라우저에서는 미디어 쿼리를 무시하고 실행하지 않음
+            - not : not 다음에 지정하는 미디어 유형을 제외함
+            - and : 조건을 여러 개 연결해서 추가할 수 있음
+        - 예)
+            @media screen and (min-width: 768px) and (max-width: 1439px) {
+                /적용할 CSS 스타일/
+            }
+    3) 미디어 유형
+        - 미디어 별 적용할 CSS를 따로 작성함
+        - @media 속성의 미디어 유형 종류
+            - all : 모든 미디어 유형에서 사용할 CSS를 정의 / 기본값
+            - screen : 컴퓨터 스크린에서 사용할 CSS를 정의 / 스마트폰
+            - print
+            - tv
+            - tty
+            - handheld
+            - projection
+        -웹 문서의 가로 너비와 세로 높이 속성
+            - 실제 웹 문서 내용이 화면에 나타나는 영역(뷰포트)
+            - 뷰포트의 가로 너비와 세로 높이를 미디어의 쿼리 조건으로 사용할 수 있음
+            - 속성
+                - width, height
+                - min-width, min-height (최소 가로 너비, 최소 세로 높이 지정)
+                - max-width, max-height (최대 가로 너비, 최대 세로 높이 지정)
+
+                - 화면 회전 속성
+                    - orientation: portrait (세로 모드)
+                      orientation: landscape (가로 모드)
+
+    4) 미디어 쿼리 중단점(Breakpoint)
+        - 미디어 쿼리 작성할 때 화면 크기에 따라 서로 다른 CSS를 적용할 분기점
+        - 대부분 기기의 화면 크기를 기준으로 함
+        - 모바일, 태블릿, 데스크탑 정도로만 구분함
+            - 처리 속도, 화면 크기 등에서 모바일 제약 조건이 더 많음
+                - 레이아웃을 기본으로 하여 CSS를 만듦
+            - 화면이 큰 태블릿, 데스크탑에 맞춰 더 많은 기능과 스타일 추가함
+            - 스마트폰
+                - min-width의 세로와 가로를 portrait 320px, landscape 480px로 지정함
+            - 태블릿
+                - min-width의 세로와 가로를 portrait 768px 이상, landscape 1024px 이상으로 지정함
+            - 데스크탑
+                - 화면 크기가 1024px 이상이면 데스크탑으로 설정
+
+5. 미디어 쿼리 적용하기
+    1) 외부 CSS 파일 연결하기
+        - <link rel="stylesheet" href="css/style.css">
+    2) 웹 문서에 직접 정의하기
+        - <style media="screen and (max-width: 320px)">
+            body {
+                background-color: orange;
+            }
+          </style>
+        
+        - <style>
+            @media screen and (max-width: 320px) {
+                body {
+                    background-color: orange;  
+                }
+            }
+          </style>     
