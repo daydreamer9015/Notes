@@ -10,3 +10,8 @@
         - 3단계 : branch별로 commit하고 push함
         - 4단계 : pull request를 요청함 (관리자에게 내가 push한 변경사항을 main에 pull해서 merge해달라고 요청하는 것)
         - 5단계 : Code Review & Code 병합
+    
+    3) 2단계
+        - 프로젝트 관리하기
+            - 새로운 프로젝트를 생성
+            - 이슈 등록
