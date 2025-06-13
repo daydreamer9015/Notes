@@ -11,7 +11,7 @@
     1) wsl --version
     2) docker --version
     3) docker ps : 실행되고 있는 컨테이너 보기
-    4) docker run : 구동 (뒤에 - 써서 옵션 계속 붙일 수 있음 : -d = demon으로 실행, -p = port) / 내부 port number는 거의 fixed
+    4) docker run : 구동 (뒤에 - 써서 옵션 계속 붙일 수 있음 : -d = daemon으로 실행, -p = port) / 내부 port number는 거의 fixed
     docker run -d -p 8071:80 --name myhttpd1 httpd = 이 기준으로 container run
 
 4. 도커 이미지 관련 명령어
