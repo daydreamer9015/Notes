@@ -29,3 +29,18 @@
        false       true            false
        true        false           false
        true        true            true
+    3) NOT 연산자
+        - ! 기호
+
+4. Switch 문
+    1) 기본형
+        - switch(조건)
+          { => 조건이 맞으면 실행될 명령
+            case 값1: 명령1
+                break;
+            case 값2: 명령2
+                break;
+                .....
+            default: 명령       <= 기본적으로 실행될 명령
+          }
+    
