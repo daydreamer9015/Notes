@@ -26,7 +26,7 @@
         - 원시 유형 primitive                                              예시
             - 숫자형(number)                                        let year = 2025;
                 - 정수와 실수
-            - BigInt  아주 큰 정수
+            - BigInt   아주 큰 정수
             - 문자열    ' '나 " "로 값을 묶어 나타냄                   let year = "2025"
             - 논리형    true와 false라는 두 가지 값                   let isEmpty = true
         - 복합 유형
