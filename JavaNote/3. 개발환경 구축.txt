@@ -1,19 +1,26 @@
+0. Java 특징
+    1) JVM 기반에서 작동하는 OOP 언어 (객체지향 프로그래밍 언어)
+    2) C / C++ 의 가장 큰 특징인 메모리 관리와 책임이슈를 구조적으로 제거
+    3) OS (혹은  Platform)에 대한 의존성 없음
+    4) 컴파일러, 인터프리터 특징을 모두 가짐
+        - 하이브리드
+    5) 문법적으로 C / C++와 매우 유사
+
 1. JDK, JRE
-    1) JDK
-        - Java Development Kit
+    1) JDK (Java Development Kit)
+	- JRE + 개발환경 + 프로그램 개발도구
         - 개발 환경
         - JRE를 포함
         - 컴파일러 등 프로그램 개발 도구가 포함
         - 버전 중요(언어버전)
-    2) Java SE 스펙 준수
+    2) Java SE 스펙 준수해서 만든 것
         - Oracle JDK
         - Open JDK
     3) JRE
         - Java Runtime Environment
         - 실행 환경
         - Java 프로그램을 실행하는데 필요한 패키지
-        - JVM(Java Virtual Machine), 각종 명령을 포함
-        - 클래스 라이브러리
+        - JVM(Java Virtual Machine) + 각종 명령어 실행할 수 있는 파일, 클래스 라이브러리
 
 2. IDE (Intergated Development Environment)
     1) 이클립스(Eclipse)
@@ -35,10 +42,7 @@
                     자바 컴파일러
                     자바 실행 라이브러리
                     자바 가상 머신
-                            |
-                            |
-                            |
-                           \|/
+                          ↓
                      구현 (실체화)
         
     오라클 Open JDK     Adoptium            Amazon Corretto
@@ -54,6 +58,3 @@
     4) 자바 프로그램을 실행함
         - 자바가 제공하는 java라는 프로그램을 사용함
         - 자바 가상 머신이 실행되면서 프로그램이 작동함
-
-
-        
