@@ -1,0 +1,368 @@
+classDiagram
+    class User {
+        -String userId
+        -String password
+        -String name
+        -String email
+        -String phoneNumber
+        -String address
+        -LocalDate joinDate
+        -boolean isAdmin
+        +login(String id, String password) boolean
+        +updatePassword(String newPassword) void
+        +updateInfo(String email, String phone, String address) void
+    }
+
+    class Product {
+        -String productId
+        -String productName
+        -Category category
+        -int price
+        -int stock
+        -String description
+        -LocalDate registeredDate
+        +updateStock(int quantity) void
+        +isAvailable() boolean
+    }
+
+    class Category {
+        <<enumeration>>
+        ELECTRONICS
+        CLOTHING
+        FOOD
+        BOOKS
+        OTHER
+    }
+
+    class Cart {
+        -String userId
+        -CartItem[] items
+        +addItem(Product product, int quantity) void
+        +removeItem(String productId) void
+        +updateQuantity(String productId, int quantity) void
+        +getTotalPrice() int
+        +clear() void
+    }
+
+    class CartItem {
+        -Product product
+        -int quantity
+        +getSubtotal() int
+    }
+
+    class Order {
+        -String orderId
+        -String userId
+        -OrderItem[] orderItems
+        -String deliveryAddress
+        -int totalAmount
+        -OrderStatus status
+        -LocalDateTime orderDate
+        +cancel() void
+        +updateStatus(OrderStatus status) void
+    }
+
+    class OrderItem {
+        -Product product
+        -int quantity
+        -int price
+        +getSubtotal() int
+    }
+
+    class OrderStatus {
+        <<enumeration>>
+        PENDING
+        CONFIRMED
+        SHIPPING
+        DELIVERED
+        CANCELLED
+    }
+
+    User "1" o-- "1" Cart : has
+    Cart "1" o-- "*" CartItem : contains
+    CartItem "1" o-- "1" Product : references
+    User "1" o-- "*" Order : places
+    Order "1" o-- "*" OrderItem : contains
+    OrderItem "1" o-- "1" Product : references
+    Product "*" o-- "1" Category : belongs to
+    Order "1" o-- "1" OrderStatus : has
+
+    class Repository~T~ {
+        <<interface>>
+        +save(T entity) void
+        +findById(String id) T
+        +findAll() List~T~
+        +update(T entity) void
+        +delete(String id) void
+    }
+
+    class UserRepository {
+        <<interface>>
+        +findByUserId(String userId) User
+        +findByEmail(String email) User
+        +existsByUserId(String userId) boolean
+        +existsByEmail(String email) boolean
+    }
+
+    class ProductRepository {
+        <<interface>>
+        +findByCategory(Category category) List~Product~
+        +findByPriceRange(int minPrice, int maxPrice) List~Product~
+        +findByNameContaining(String keyword) List~Product~
+        +findByPage(int page, int size) List~Product~
+    }
+
+    class OrderRepository {
+        <<interface>>
+        +findByUserId(String userId) List~Order~
+        +findByStatus(OrderStatus status) List~Order~
+        +findByDateRange(LocalDate start, LocalDate end) List~Order~
+    }
+
+    class FileUserRepository {
+        -String filePath
+        +loadUsers() List~User~
+        +saveUsers(List~User~ users) void
+    }
+
+    class FileProductRepository {
+        -String filePath
+        +loadProducts() List~Product~
+        +saveProducts(List~Product~ products) void
+    }
+
+    class FileOrderRepository {
+        -String filePath
+        +loadOrders() List~Order~
+        +saveOrders(List~Order~ orders) void
+    }
+
+    Repository~T~ <|-- UserRepository
+    Repository~T~ <|-- ProductRepository
+    Repository~T~ <|-- OrderRepository
+    UserRepository <|.. FileUserRepository
+    ProductRepository <|.. FileProductRepository
+    OrderRepository <|.. FileOrderRepository
+
+    class UserService {
+        -UserRepository userRepository
+        +register(User user) void
+        +login(String userId, String password) User
+        +updateUserInfo(String userId, String email, String phone, String address) void
+        +changePassword(String userId, String newPassword) void
+        +deleteUser(String userId) void
+        +validateUserInfo(User user) void
+    }
+
+    class ProductService {
+        -ProductRepository productRepository
+        +addProduct(Product product) void
+        +updateProduct(Product product) void
+        +deleteProduct(String productId) void
+        +findAllProducts(int page, int size) List~Product~
+        +findProductsByCategory(Category category) List~Product~
+        +findProductsByPriceRange(int min, int max) List~Product~
+        +searchProducts(String keyword) List~Product~
+        +updateStock(String productId, int quantity) void
+    }
+
+    class CartService {
+        -ProductRepository productRepository
+        +addToCart(String userId, String productId, int quantity) void
+        +removeFromCart(String userId, String productId) void
+        +updateCartItemQuantity(String userId, String productId, int quantity) void
+        +getCartItems(String userId) List~CartItem~
+        +clearCart(String userId) void
+        +getTotalPrice(String userId) int
+    }
+
+    class OrderService {
+        -OrderRepository orderRepository
+        -ProductRepository productRepository
+        -CartService cartService
+        +createOrder(String userId, String address) Order
+        +cancelOrder(String orderId) void
+        +updateOrderStatus(String orderId, OrderStatus status) void
+        +getOrdersByUser(String userId) List~Order~
+        +getAllOrders() List~Order~
+        +getOrderStatistics(LocalDate start, LocalDate end) Map~String, Integer~
+    }
+
+    class SessionService {
+        -User currentUser
+        +login(User user) void
+        +logout() void
+        +getCurrentUser() User
+        +isLoggedIn() boolean
+        +isAdmin() boolean
+    }
+
+    UserService --> UserRepository
+    ProductService --> ProductRepository
+    CartService --> ProductRepository
+    OrderService --> OrderRepository
+    OrderService --> ProductRepository
+    OrderService --> CartService
+
+    class MainController {
+        -UserService userService
+        -SessionService sessionService
+        -Scanner scanner
+        +start() void
+        +showMainMenu() void
+        +handleMenuSelection(int choice) void
+    }
+
+    class UserController {
+        -UserService userService
+        -SessionService sessionService
+        -Scanner scanner
+        +register() void
+        +login() void
+        +logout() void
+        +showMyPage() void
+        +updateUserInfo() void
+        +changePassword() void
+        +deleteAccount() void
+    }
+
+    class ProductController {
+        -ProductService productService
+        -Scanner scanner
+        +showAllProducts() void
+        +showProductsByCategory() void
+        +showProductsByPriceRange() void
+        +searchProducts() void
+        +showProductDetail(String productId) void
+    }
+
+    class CartController {
+        -CartService cartService
+        -ProductService productService
+        -SessionService sessionService
+        -Scanner scanner
+        +showCart() void
+        +addToCart() void
+        +updateQuantity() void
+        +removeFromCart() void
+        +clearCart() void
+    }
+
+    class OrderController {
+        -OrderService orderService
+        -CartService cartService
+        -SessionService sessionService
+        -Scanner scanner
+        +createOrder() void
+        +showOrderHistory() void
+        +showOrderDetail(String orderId) void
+        +cancelOrder() void
+    }
+
+    class AdminController {
+        -ProductService productService
+        -UserService userService
+        -OrderService orderService
+        -SessionService sessionService
+        -Scanner scanner
+        +showAdminMenu() void
+        +manageProducts() void
+        +manageUsers() void
+        +manageOrders() void
+        +showStatistics() void
+    }
+
+    MainController --> UserController
+    MainController --> ProductController
+    MainController --> CartController
+    MainController --> OrderController
+    MainController --> AdminController
+    UserController --> UserService
+    UserController --> SessionService
+    ProductController --> ProductService
+    CartController --> CartService
+    CartController --> ProductService
+    OrderController --> OrderService
+    OrderController --> CartService
+    AdminController --> ProductService
+    AdminController --> UserService
+    AdminController --> OrderService
+
+    class ShoppingMallException {
+        <<abstract>>
+        +ShoppingMallException(String message)
+    }
+
+    class UserException {
+        +UserException(String message)
+    }
+
+    class ProductException {
+        +ProductException(String message)
+    }
+
+    class CartException {
+        +CartException(String message)
+    }
+
+    class OrderException {
+        +OrderException(String message)
+    }
+
+    class ValidationException {
+        +ValidationException(String message)
+    }
+
+    Exception <|-- ShoppingMallException
+    ShoppingMallException <|-- UserException
+    ShoppingMallException <|-- ProductException
+    ShoppingMallException <|-- CartException
+    ShoppingMallException <|-- OrderException
+    ShoppingMallException <|-- ValidationException
+
+-------
+
+com.shoppingmall
+├── domain/
+│   ├── User.java
+│   ├── Product.java
+│   ├── Category.java
+│   ├── Cart.java
+│   ├── CartItem.java
+│   ├── Order.java
+│   ├── OrderItem.java
+│   └── OrderStatus.java
+├── repository/
+│   ├── Repository.java
+│   ├── UserRepository.java
+│   ├── ProductRepository.java
+│   ├── OrderRepository.java
+│   ├── impl/
+│   │   ├── FileUserRepository.java
+│   │   ├── FileProductRepository.java
+│   │   └── FileOrderRepository.java
+├── service/
+│   ├── UserService.java
+│   ├── ProductService.java
+│   ├── CartService.java
+│   ├── OrderService.java
+│   └── SessionService.java
+├── controller/
+│   ├── MainController.java
+│   ├── UserController.java
+│   ├── ProductController.java
+│   ├── CartController.java
+│   ├── OrderController.java
+│   └── AdminController.java
+├── exception/
+│   ├── ShoppingMallException.java
+│   ├── UserException.java
+│   ├── ProductException.java
+│   ├── CartException.java
+│   ├── OrderException.java
+│   └── ValidationException.java
+├── util/
+│   ├── ValidationUtil.java
+│   ├── EncryptionUtil.java
+│   └── FileUtil.java
+└── ShoppingMallApplication.java
