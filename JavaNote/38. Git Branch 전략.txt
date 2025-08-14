@@ -3,8 +3,11 @@
         - 파일이 없는 저장소로 생성
     2) 로컬에서 IDE(eclipse)로 자바 프로젝트 생성
         - 패키지 구조 포함
-        - .gitignore 
-
+        - .gitignore
+    3) 로컬과 리모트를 연결
+    4) 로컬에서 develop 브랜치 생성
+        - git checkout -b develop
+        - git push -u origin develop
     5) 팀원 초대
         - Settings => Manage Access -> Add people
             - 팀원 Github ID로 초대
