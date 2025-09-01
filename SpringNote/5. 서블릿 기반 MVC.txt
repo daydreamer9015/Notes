@@ -27,7 +27,7 @@
     1) 회원가입
         - 클라이언트 요청 (브라우저)
             - /servlet-mvc/members/new-form     GET 요청
-        - MvcMemberFormServlet (Controller) : urlPatterns에 의해 등록되어 있고 서블릿컴포넌트스캔으로 스캔되어 서비스 메서드 실행
+        - MvcMemberFormServlet (Controller) : urlPatterns에 의해 등록되어 있고 ServletComponentScan으로 스캔되어 서비스 메서드 실행
             - service() 메서드 실행
             - Model 데이터 없음, 바로 forward() 준비
         - RequestDispatcher

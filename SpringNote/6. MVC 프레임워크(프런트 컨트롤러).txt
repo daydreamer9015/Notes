@@ -8,5 +8,44 @@
         - Spring Web MVC의 핵심도 바로 FrontController
         - Spring Web MVC의 DispatcherServlet이 FrontController 패턴으로 구현되어 있음
 
-2. 프런트 컨트롤러 도입 (기존 코드를 최적화 하는 방향으로 리팩토링 하는 것)
+2. 프런트 컨트롤러 도입 (s1) (기존 코드를 최적화 하는 방향으로 리팩토링 하는 것)
     1) 회원 등록 컨트롤러
+
+3. View 분리 (s2)
+    1) 모든 컨트롤러에서 뷰로 이동하는 부분에 중복이 있고 깔끔하지 않음
+        - 각 Controller가 직접 RequestDispatcher.forward()를 호출함
+        - View 경로가 Controller에 하드코딩 되어 있음
+    2) 깔끔하게 분리하기 위해서 별도로 뷰를 처리하는 객체를 생성함
+        - View 렌더링 로직을 Controller로부터 분리
+    3) 각 컨트롤러는 복잡한 dispatcher.forward()를 직접 생성해서 호출하지 않아도 됨
+        - MyView라는 객체를 생성하고 거기에 뷰 이름만 넣고 반환하면 됨
+    4) 아직 남은 이슈
+        - Controller가 여전히 HttpServletRequest/HttpServletResponse에 의존
+        - request.setAttribute()로 Model에 저장
+        - Servlet 기술에 종속적임
+            - s3에서는 Model 분리, viewResolver 도입
+
+4. Model 추가 (s3) - 종속성 분리 (데이터 공유 부분도 별도의 class로 관리)
+    1) 서블릿 종속성 제거
+        - Map<String, String> paramMap 사용
+        - Controller는 순수 Java 코드
+        - 단위 테스트 매우 간단
+    2) Model 분리 (ModelView)
+        - 순수 Java Map으로 Model 관리
+        - Spring ModelAndView와 동일
+    3) viewResolver 도입
+        - 논리적 View 이름만 사용
+        - "new-form" => "/WEB-INF/views/new-form.jsp"로 변환
+        - View 경로 변경 시 ViewResolver만 수정하면 됨
+        - Spring ViewResolver와 동일
+    4) 책임(역할)의 명확한 분리
+        - FrontController
+            - Servlet 기술 처리 (Request => Map으로 변환)
+            - ViewResolver 실행
+            - request.setAttribute를 Model 실행해서 저장할 수 있도록 변환
+        - Controller
+            - 비즈니스 로직만 집중하도록 framework 자체에서 제공함
+            - Servlet의 API는 안 씀 (몰라도 됨)
+            - POJO (Plain Old Java Object)로 구성
+5. 단순한 컨트롤러 (s4)
+    
