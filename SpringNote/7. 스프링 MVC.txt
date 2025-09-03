@@ -7,3 +7,22 @@
     6) MyView ==> View
 
 2. DispatcherServlet
+    1) 스프링 MVC도 프런트 컨트롤러 패턴으로 구현되어 있음
+    2) 스프링 MVC의 프런트 컨트롤러가 바로 DispatcherServlet임
+    3) 이 DispatcherServlet이 스프링 MVC의 핵심임
+
+3. @RequestMapping
+    1) 스프링에서 주로 사용하는 Annotation 기반의 컨트롤러를 지원하는 Mapping과 Adapter임
+    2) RequestMappingHandlerMapping
+       RequestMappingHandlerAdapter
+    3) 요청 정보를 Mapping함
+        - 해당 URL이 호출되면 해당되는 메서드가 호출됨
+        - Annotation을 기반으로 동작하기 때문에 메서드 이름은 임의로 지으면 됨
+
+4. @Controller
+    1) 스프링이 자동으로 스프링 빈(객체)으로 IOC컨테이너에 등록함 => 서비스나 다른 컨테이너에서 호출 가능해짐
+    2) 스프링 MVC에서 Annotation 기반 컨트롤러로 인식함
+
+5. 로깅
+    1) System.out.println("") 대신 별도의 로깅 라이브러리를 사용해서 로그를 출력하기
+    2) spring-boot-starter-logging-3.5.5.jar
