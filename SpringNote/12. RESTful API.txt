@@ -104,3 +104,5 @@
     1) BookImage
     2) uploads 디렉토리 만들기
     3) uploads 디렉토리 경로 설정하기 (application.yml)
+
+12. (책) 이미지 뷰어
