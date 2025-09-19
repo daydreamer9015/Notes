@@ -165,3 +165,38 @@ Hibernate: alter table Review add constraint FKl3n8g20ecmr15g83y0g3evv2q foreign
             - save(), findById(), findAll(), deleteById() 메서드를 액세스 할 수 있음
     Hibernate: insert into Customer (age,customerName,occupation,password,rating,reserves,username) values (?,?,?,?,?,?,?)
     Hibernate: insert into Customer (age,customerName,occupation,password,rating,reserves,username) values (?,?,?,?,?,?,?)
+
+
+9. JPA 관계 매핑 규칙
+    1) @OneToMany (1:N)
+        - 부모 엔티티에 선언
+        - mappedBy="자식필드명"
+        - List<자식엔티티> 타입
+
+    2) @ManyToOne
+        - 자식 엔티티에 선언
+        - @JoinColumn 필수
+        - FK 컬럼명 지정
+    
+    3) CascadeType.ALL
+        - 부모 변경 시 자식도 변경
+        - 영속성
+    
+    4) 양방향 관계
+        - 연관관계 주인 : @ManyToOne
+        - 역방향 : @OneToMany
+        - mappedBy로 연결
+
+10. JPA 사용 방법
+    1) JpaRepository에서 제공되는 CRUD 메서드를 사용하는 방법
+    2) 쿼리 메서드를 사용하는 방법
+        - 메서드 이름을 선언하여 저장소 인터페이스에서 쿼리 메서드를 정의할 수 있음
+        - 메서드 이름은 Spring Data JPA에 의해 구문 분석되어 적절한 SQL 쿼리를 생성함
+        - 예)
+            firstName 필드가 있는 User 엔티티가 있는 경우
+            => findByFirstName(String firstName)
+        - 테스트
+            - Repository 인터페이스 작성
+            - Hibernate: select c1_0.id,c1_0.age,c1_0.created_at,c1_0.customerName,c1_0.deleted,c1_0.deletedAt,c1_0.occupation,c1_0.password,c1_0.rating,c1_0.reserves,c1_0.updated_at,c1_0.username from customer c1_0 where c1_0.username=?
+                user01 사용자 조회 -> 신사임당
+    3) JPQL 쿼리를 사용하는 방법
