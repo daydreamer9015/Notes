@@ -200,3 +200,41 @@ Hibernate: alter table Review add constraint FKl3n8g20ecmr15g83y0g3evv2q foreign
             - Hibernate: select c1_0.id,c1_0.age,c1_0.created_at,c1_0.customerName,c1_0.deleted,c1_0.deletedAt,c1_0.occupation,c1_0.password,c1_0.rating,c1_0.reserves,c1_0.updated_at,c1_0.username from customer c1_0 where c1_0.username=?
                 user01 사용자 조회 -> 신사임당
     3) JPQL 쿼리를 사용하는 방법
+
+11. 쿼리 메서드 (Query Method)
+    1) 자주 사용하는 키워드
+        - 조회 : findBy, getBy, queryBy, searchBy
+        - 존재 확인 : existBy
+        - 카운트 : countBy
+        - 삭제 : deleteBy, removeBy
+        - 조건 : And, Or
+        - 비교 : Between, LessThan, GreaterThan, After, Before
+        - Like : Like, NotLike, StartingWith, EndingWith, Containing
+        - 정렬 : OrderBy...Asc, OrderBy...Desc
+        - Null 체크 : IsNull, IsNotNull
+        - Boolean : True, False
+        - 컬렉션 : In, NotIn
+        - 제한 : First, Top, Distinct
+
+12. JPQL 쿼리를 사용하는 방법(@Query 사용, Entity 기준)
+    1) JPQL (Java Persistence Query Language)
+        - 엔티티 클래스와 해당 필드를 사용하여 사용자 정의 쿼리를 정의할 수 있음
+    2) SQL vs JPQL
+        - SQL (데이터베이스 테이블 기준)
+            - 예) SELECT * FROM customer c
+                  WHERE c.customerName = 'Lee'
+                  AND c.age > 20;
+        - JPQL (엔티티 객체 기준)
+            - 예) SELECT * FROM customer c
+                  WHERE c.customerName = :name
+                  AND c.age > :age
+    3) 단계별 적용
+        -
+            @Query(
+                "
+                    SELECT c FROM customer c
+                    WHERE c.rating = :rating
+                    And c.deleted = false
+                "
+            )
+            List<Customer> findActiveGoldCustomers(@Param("rating"));
