@@ -65,3 +65,28 @@
         - Promise를 쉽게 사용할 수 있도록 등장
         - ES8(ES2017)에서 도입된 JavaScript 비동기 처리 문법
         - Promise 기반이지만 훨씬 읽기 쉽고 직관적인 코드 작성 가능
+
+3. Async/Await 방식
+    1) 동기적 코드 스타일
+        - await 키워드로 비동기를 동기처럼 작성
+        - 코드 가독성과 유지보수성 향상
+    2) Try ~ Catch 에러 처리
+        - Promise의 .catch()보다 직관적
+    3) 페이지 새로고침 없음
+        - AJAX 방식으로 부분 업데이트
+        - 사용자 경험(UX) 개선
+    4) JSON 데이터 통신
+        - JSON.stringify()로 데이터 직렬화
+        - @RequestBody로 자동 파싱
+    5) DOM 직접 조작
+        - getElementById()로 요소 접근
+        - innerHTML로 동적 콘텐츠 업데이트
+    6) RESTful API 패턴
+        - HTTP 메서드 명확히 구분 (GET/POST)
+        - @ResponseBody로 데이터 직접 변환
+    7) 규칙 정리
+        - async 함수 내에서만 await 사용
+        - await는 Promise를 기다림
+        - 에러는 try-catch로 처리
+        - async 함수는 항상 Promise 객체를 반환
+        - 병렬 처리는 Promise.all() 사용
