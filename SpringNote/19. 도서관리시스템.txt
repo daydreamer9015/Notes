@@ -7,3 +7,60 @@
                 - content fragment (home.html)
                 - scripts fragment
             - footer (common/footer.html)
+
+2. 전체 아키텍처
+    1) 시스템 구조도
+
+        Presentation                Business                        Data
+            Layer                     Layer                         Layer
+        ----------------        -------------------------       --------------------------
+        * AuthController        * MemberService                 * MemberRepository
+        * HomeController        * UserDetailsService            * Member Entity
+        * Thymeleaf             * Security Config               * MySql DB
+        * Templates
+    2) 데이터베이스 ERD
+        
+    erDiagram
+        MEMBERS {
+            BIGINT id PK
+            VARCHAR username UK
+            VARCHAR password
+            VARCHAR email UK
+            VARCHAR name
+            VARCHAR phone
+            ENUM role
+            ENUM member_type
+            ENUM status
+            TIMESTAMP created_at
+            TIMESTAMP updated_at
+        }
+
+        ROLE_ENUM {
+            string USER "일반 사용자"
+            string LIBRARIAN "사서"
+            string ADMIN "관리자"
+        }
+
+        MEMBER_TYPE_ENUM {
+            string REGULAR "일반 사용자"
+            string SILVER "실버 회원"
+            string GOLD "골드 회원"
+            string VIP "VIP 회원"
+        }
+
+        STATUS_ENUM {
+            string ACTIVE "활성"
+            string SUSPENDED "정지"
+            string WITHDRAWN "탈퇴"
+        }
+
+        MEMBERS ||--|| ROLE_ENUM : has
+        MEMBERS ||--|| MEMBER_TYPE_ENUM : has
+        MEMBERS ||--|| STATUS_ENUM : has
+
+3. 구현
+    1) STEP 1: Entity 레이어 구현
+        - Role.java
+        - MemberStatus.java
+        - MemberType.java
+        - Member.java (핵심!)
