@@ -64,3 +64,30 @@
         docker stop <containerID>      중지됨 (Exited)            유지됨
         docker rm                      삭제됨                    볼륨은 유지
         docker rm -v                   삭제 + Volume 삭제         완전 삭제
+
+* JPA가 기본 생성자를 사용하는 시점들
+    1. DB 조회 시
+        1) userRepository.findById(1L).orElseThrow();
+            - 이때 JPA/Hibernate는:
+                - DB에서 데이터 SELECT
+                - 기본 생성자로 빈 User 객체 생성 <---- 여기서 User() 필요
+                - Reflection으로 필드에 값 주입
+    
+    2. 영속성 컨텍스트 관리
+        1) JPA는 엔티티를 관리하면서 내부적으로 리플렉션을 사용해 객체를 복제하기도 하고 재구성할 수 있음
+            - signUp()에서 하는 것
+                - new User(오버로드 받은 것Dto.getEmail() 등등) => 매개변수 생성자 사용
+                            |
+                            ▼
+                userRepository.save(user)   => DB에 저장
+
+                [나중에 JPA가 조회할 때]
+                SELECT * FROM users WHERE id = 1
+                            |
+                            ▼
+                User user = new User();         <---- 기본 생성자 호출!
+                            |
+                            ▼
+                user.id = 1; (리플렉션으로 필드 주입)
+                user.username = "이순신"
+                user.password = "1234"
