@@ -1,0 +1,85 @@
+* 회원 가입 시 포인트 적립하기 (요구사항)
+    MSA pattern : Service-to-Service Communication via HTTP
+
+Client          Client
+                (사용자)
+                   ▲
+                   |
+                   | POST /users/signup
+                   | {name, email, password}
+                   ▼
+Controller      UserController                                          
+                  user-service 808
+                  POST /users/signup
+                   |
+                   | signUp(dto)
+                   |
+                   ▼                                                                PointController          
+Service         UserService        적립요청     PointClient       HTTP POST         point-service 8082
+                  @Transactional ◀--------▶   RestClient    ◀-------------▶      POST /points/add        
+                    signUp()                   HTTP 통신       localhost:8082               |
+                  |                                             /points/add                | addPoints (dto)
+                  |                                                                        |
+                  |                                                                        ▼
+                  |                                                                 PointService
+                  |                                                                 @Transactional
+                  |                                                                   addPoints()
+                  |                                                                        |
+                  |                                                                        | save(point)
+                  |                                                                        |
+                  |                                                                        ▼
+                  |                                                                 PointRepository
+                  |                                                                  JpaRepository
+                  |                                                                   save(point)
+                  |                                                                        |
+                  |                                                                        | INSERT INTO points
+                  |                                                                        |
+                  |                                                                        ▼
+                  |                                                                 post-service DB
+                  |                                                                  MySQL : 3309
+                  |                                                                  points 테이블
+                  |
+                  |
+                  |
+                  ▼  
+Repository  UserRepository
+             JpaRepository
+              save(user)
+                  |
+                  | INSERT INTO users 
+                  |
+                  ▼
+            user-service DB
+              MySQL : 3307
+              users 테이블
+
+* Point MicroService가 사용할 DB 실행하기
+    1. MySQL 서버 실행하기
+        - docker run -e MYSQL_ROOT_PASSWORD=password -p 3309:3306 -d mysql
+    2. 실행 확인하기
+        - docker ps
+
+* MSA 데이터베이스 설계
+
+        user-db                 board-id                    point-db
+  -------------------------------------------------------------------------------
+     Port : 3307                Port : 3308                 Port : 3309
+     Service : user-service     Service : board-service     Service : point-service
+
+        users                   boards                      points
+    PK  userId              PK  boardId                 PK  pointId
+        email                   title                   FK  userId
+        name                    content                     amount
+        password            FK  userId
+
+
+    1. 핵심 원칙
+        1) 각 마이크로서비스는 자신의 데이터를 완전히 소유하고, 다른 서비스의 데이터는 API를 통해서만 접근함
+        2) 논리적 FK vs 물리적 FK
+            - 물리적 FK (Monolithic)
+                - DB 레벨에서 참조 무결성 보장
+                - 서비스 간 강한 결합
+                - 독립 배포 불가
+            - 논리적 FK (MSA)
+                - 서비스 독립성, 느슨한 결합
+                - 어플리케이션에서 참조 무결성 관리 필요

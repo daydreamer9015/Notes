@@ -8,3 +8,28 @@
     1) 2명의 사용자 정보를 조회해보기 위해 회원가입을 한번 더 해주기
 
 * 게시글 전체 조회하는 API 만들기
+    1. 제네릭 타입 정보가 런타임에 사라짐 
+        1) .body(List<UserResponseDto>.class)  이건 안됨    
+
+    2. 익명 클래스를 통해 제넥릭 타입 정보 보존 
+        1) .body(new ParameterizedTypeReference<>() {})  
+            - 익명 클래스를 생성 
+            - 제네릭 타입 정보를 메타데이터로 보존 
+            - Type Erasure 문제 해결     
+
+            - JSON 배열 => List<UserResponseDto> 정확한 변환 
+                - [{"userId":1,...}, {"userId":2,...}] => List<UserResponseDto>
+                - users.get(0).getName() 가능 
+                - users.get(0).getUserID() 가능
+
+    3. 핵심 구현 포인트 
+        1) API Composition 패턴 
+            - Board Service의 역할
+                - 게시글 데이터 (Board DB)
+                - 사용자 데이터 (User Service via HTTP)
+                - 두 데이터를 조합하여 통합 응답 생성 
+
+            - UserClient의 역할
+                - HTTP 통신 로직 캡슐화
+                - RestClient로 User Service 호출
+                - ParameterizedTypeReference로 타입 안전성 보장
